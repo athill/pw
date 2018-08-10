@@ -1,0 +1,14 @@
+{
+  "name": "pw",
+  "version": "1.0.0",
+  "description": "password generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "athill <athill@iu.edu>",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^6.1.0"
+  }
+}
