@@ -8,6 +8,10 @@ const UPPERCASE = 'uppercase',
 const VALID_TYPE_CHOICES = [ UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS ];
 const DEFAULT_TYPE_CHOICES = [UPPERCASE, LOWERCASE, NUMBERS];
 
+process.argv.forEach(function (val, index, array) {
+  console.log(index + ': ' + val);
+});
+
 inquirer.prompt([
 	{
 		type: 'checkbox',
@@ -26,7 +30,6 @@ inquirer.prompt([
 
 ]).then(answer => {
 	const charsTypes = {
-		const chars = 
 		[UPPERCASE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
 		[LOWERCASE]: 'abcdefghijklmnopqrstuvwxyz'.split(''),
 		[NUMBERS]: '0123456789'.split(''),

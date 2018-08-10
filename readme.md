@@ -15,7 +15,7 @@ I create a `~/bin/pw` file with contents such as the following:
 #!/bin/bash
 
 cd /path/to/pw
-node .
+node . "@$"
 
 ```
 Then add `~/bin` to your path if it's not already there and `chmod u+x ~/bin/pw` and you can start it via
