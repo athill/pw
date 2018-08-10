@@ -1,14 +1,20 @@
 const inquirer = require('inquirer');
 
+const UPPERCASE = 'uppercase',
+	LOWERCASE= 'lowercase',
+	NUMBERS = 'numbers',
+	SYMBOLS = 'symbols';
+
+const VALID_TYPE_CHOICES = [ UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS ];
+const DEFAULT_TYPE_CHOICES = [UPPERCASE, LOWERCASE, NUMBERS];
+
 inquirer.prompt([
 	{
 		type: 'checkbox',
-		message: 'Character types (default is uppercase, lowercase, symbols)',
+		message: `Character types (default is ${DEFAULT_TYPE_CHOICES.join(', ')})`,
 		name: 'types',
-		default: ['uppercase', 'lowercase', 'numbers'],
-		choices: [
-			'uppercase', 'lowercase', 'numbers', 'symbols'
-		]	
+		default: DEFAULT_TYPE_CHOICES,
+		choices: VALID_TYPE_CHOICES	
 	},
 	{
 		type: 'input',
@@ -20,10 +26,11 @@ inquirer.prompt([
 
 ]).then(answer => {
 	const charsTypes = {
-		'uppercase': 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-		'lowercase': 'abcdefghijklmnopqrstuvwxyz'.split(''),
-		'numbers': '0123456789'.split(''),
-		'symbols': '~`!@#$%^&*()-_=+{}[]|\\:;"\'<>,.?/'.split('')
+		const chars = 
+		[UPPERCASE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+		[LOWERCASE]: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+		[NUMBERS]: '0123456789'.split(''),
+		[SYMBOLS]: '~`!@#$%^&*()-_=+{}[]|\\:;"\'<>,.?/'.split('')
 	};
 	let valid = [];
 	answer.types.forEach(type => {
