@@ -8,8 +8,25 @@ const UPPERCASE = 'uppercase',
 const VALID_TYPE_CHOICES = [ UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS ];
 const DEFAULT_TYPE_CHOICES = [UPPERCASE, LOWERCASE, NUMBERS];
 
+if (process.argv.includes('--help')) {
+	console.log(`
+pw - a super simple password generating wizard.
+
+By default it will bring up a wizard to generate a password and then will display said generated password.
+
+The wizard contains two questions:
+	Character Types: The types of characters that make up the password. Choices are: uppercase, lowercase, numbers, and symbols.
+	Length: The length of the password
+
+Options:
+	--help\tBrings up this display
+`);
+	process.exit(0);
+}
+
 process.argv.forEach(function (val, index, array) {
   console.log(index + ': ' + val);
+
 });
 
 inquirer.prompt([
