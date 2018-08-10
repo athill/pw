@@ -19,7 +19,6 @@ inquirer.prompt([
 	}
 
 ]).then(answer => {
-	console.log(answer);
 	const charsTypes = {
 		'uppercase': 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
 		'lowercase': 'abcdefghijklmnopqrstuvwxyz'.split(''),
