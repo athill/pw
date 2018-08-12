@@ -164,8 +164,8 @@ describe('utils', () => {
 	});
 
 	// not sure why this doesn't work
-	/*
-	describe('readConfig', () => {
+	
+	describe.skip('readConfig', () => {
 		beforeEach(() => {
 			fs.readFileSync = jest.fn();
 		});
@@ -178,5 +178,5 @@ describe('utils', () => {
 			// expect(fs.readFileSync).toBeCalledWith(path, rules);
 		});
 	});
-	*/
+
 });
