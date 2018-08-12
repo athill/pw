@@ -1,65 +1,121 @@
+const fs = require('fs');
 const inquirer = require('inquirer');
 
-const UPPERCASE = 'uppercase',
-	LOWERCASE= 'lowercase',
-	NUMBERS = 'numbers',
-	SYMBOLS = 'symbols';
+const  {  
+	pw, 
+	LOWERCASE, 
+	NUMBERS, 
+	SYMBOLS, 
+	UPPERCASE,
+	VALID_TYPE_CHOICES
+} = require('./pw');
 
-const VALID_TYPE_CHOICES = [ UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS ];
+const { readConfig, removeConfig, showHelp, writeConfig } = require('./utils');
+
+// defaults
 const DEFAULT_TYPE_CHOICES = [UPPERCASE, LOWERCASE, NUMBERS];
+const DEFAULT_LENGTH = 20;
 
-if (process.argv.includes('--help')) {
-	console.log(`
-pw - a super simple password generating wizard.
+// config path
+const CONFIG_PATH = './.config.json';
 
-By default it will bring up a wizard to generate a password and then will display said generated password.
+//// arguments
+const args = {
+	'--config': (configPath, config) => {
+		writeConfig(configPath, config);
+	},
+	'--help': () => {
+		showHelp();
+		process.exit(0);
+	},
+	'--reset': (configPath) => {
+		removeConfig(configPath);
+	},
+	'--version': () => {
+		const pkg = require('./package.json');
+		console.log(pkg.version);
+		process.exit(0);
+	}
+};
 
-The wizard contains two questions:
-	Character Types: The types of characters that make up the password. Choices are: uppercase, lowercase, numbers, and symbols.
-	Length: The length of the password
-
-Options:
-	--help\tBrings up this display
-`);
-	process.exit(0);
-}
-
-process.argv.forEach(function (val, index, array) {
-  console.log(index + ': ' + val);
-
+// validate arguments
+process.argv.slice(2).forEach(arg => {
+	if (!(arg in args)) {
+		console.error(`Invalid argument ${arg}.`);
+		console.log('Use `pw --help` for help.');
+		process.exit(1);
+	}
 });
 
-inquirer.prompt([
+// helper
+const arg = (arg, ...others) => {
+	if (process.argv.includes(arg)) {
+		args[arg](...others);
+	}
+};
+
+// help display
+arg('--help');
+
+// version
+arg('--version');
+
+//config
+const configValidation = {
+	'types': [
+		value => { if (!value) return '`types` is required.' },
+		value => { if (!Array.isArray(value)) return '`types` must be an array.' },
+		values => {
+			for (let i = 0; i < values.length; i++) {
+				const value = values[i];
+				if (!VALID_TYPE_CHOICES.includes(value)) {
+					return `\`types\` value ${value} is not valid. Valid values are ${VALID_TYPE_CHOICES.join(', ')}`;
+				}
+			}
+		}	
+	],
+	'length': [
+		value => { if (!value) return '`length` is required.' },
+		value => { if (!Number.isInteger(parseInt(value)) || !(value > 0)) return '`length` must be an non-negative integer.' }
+	]
+};
+
+let config = {
+	types: DEFAULT_TYPE_CHOICES,
+	length: DEFAULT_LENGTH
+};
+
+arg('--reset', CONFIG_PATH);
+
+// load config
+if (fs.existsSync(CONFIG_PATH)) {
+	config = readConfig(CONFIG_PATH, configValidation);	
+} else {
+	console.log('No config file found. Run `pw --config` to update prefernces.');	
+}
+
+// wizard
+const promt =  () => inquirer.prompt([
 	{
 		type: 'checkbox',
-		message: `Character types (default is ${DEFAULT_TYPE_CHOICES.join(', ')})`,
+		message: `Character types (default is ${config.types.join(', ')})`,
 		name: 'types',
-		default: DEFAULT_TYPE_CHOICES,
+		default: config.types,
 		choices: VALID_TYPE_CHOICES	
 	},
 	{
 		type: 'input',
 		message: 'Length',
 		name: 'length',
-		default: 20,
+		default: config.length,
 		validate: input => /^\d*$/.test(input)
 	}
+]);
 
-]).then(answer => {
-	const charsTypes = {
-		[UPPERCASE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-		[LOWERCASE]: 'abcdefghijklmnopqrstuvwxyz'.split(''),
-		[NUMBERS]: '0123456789'.split(''),
-		[SYMBOLS]: '~`!@#$%^&*()-_=+{}[]|\\:;"\'<>,.?/'.split('')
-	};
-	let valid = [];
-	answer.types.forEach(type => {
-		valid = valid.concat(charsTypes[type]);	
-	});
-	let pw = '';
-	for (let i = 0; i < answer.length; i++) {
-		const index = Math.floor(Math.random() * Math.floor(valid.length));
-		pw += valid[index];
-	}
-	console.log(pw);
+
+// main
+const prompt = promt();
+prompt.then(answer => {
+	arg('--config', CONFIG_PATH, answer);
+	console.log(pw(answer.types, answer.length));
 });
