@@ -1,6 +1,13 @@
 # pw
 
-Super simple password generator wizard
+Super simple password generator wizard. Customize character types (lowercase, numbers, symbols, uppercase) and length.
+
+Default choices:
+
+| Choice | Value                         |
+|--------|-------------------------------|
+| types  | lowercase, numbers, uppercase |
+| length | 20                            |
 
 ## Usage
 
@@ -23,3 +30,12 @@ Then add `~/bin` to your path if it's not already there and `chmod u+x ~/bin/pw`
 $ pw
 ```
 from anywhere.
+
+## Options
+
+| Option    | Action                                         |
+|-----------|------------------------------------------------| 
+| --config  | Save the choices of the current run as default |
+| --help    | Display help information                       |
+| --reset   | Reset default choices to original              |
+| --version | Display current version                        |
