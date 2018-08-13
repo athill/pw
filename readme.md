@@ -35,7 +35,7 @@ from anywhere.
 
 | Option    | Action                                         |
 |-----------|------------------------------------------------| 
-| --config  | Save the choices of the current run as default |
+| --save    | Save the choices of the current run as default |
 | --help    | Display help information                       |
 | --reset   | Reset default choices to original              |
 | --version | Display current version                        |

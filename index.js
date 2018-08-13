@@ -21,7 +21,7 @@ const CONFIG_PATH = './.config.json';
 
 //// arguments
 const args = {
-	'--config': (configPath, config) => {
+	'--save': (configPath, config) => {
 		writeConfig(configPath, config);
 	},
 	'--help': () => {
@@ -116,6 +116,6 @@ const promt =  () => inquirer.prompt([
 // main
 const prompt = promt();
 prompt.then(answer => {
-	arg('--config', CONFIG_PATH, answer);
+	arg('--save', CONFIG_PATH, answer);
 	console.log(pw(answer.types, answer.length));
 });

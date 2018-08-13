@@ -58,7 +58,7 @@ The wizard contains two questions:
 
 Options:
 	--help\tBrings up this display
-	--config\tSave options as new defaults
+	--save\tSave options as new defaults
 	--reset\tRestore original defaults
 	--version\tDisplays the current version
 `);
