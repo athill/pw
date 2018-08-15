@@ -63,20 +63,19 @@ arg('--version');
 //config
 const configValidation = {
 	'types': [
-		value => { if (!value) return '`types` is required.' },
-		value => { if (!Array.isArray(value)) return '`types` must be an array.' },
+		value => !value && '`types` is required.',
+		value => !Array.isArray(value) && '`types` must be an array.',
 		values => {
 			for (let i = 0; i < values.length; i++) {
 				const value = values[i];
-				if (!VALID_TYPE_CHOICES.includes(value)) {
-					return `\`types\` value ${value} is not valid. Valid values are ${VALID_TYPE_CHOICES.join(', ')}`;
-				}
+				return !VALID_TYPE_CHOICES.includes(value) && 
+					`\`types\` value ${value} is not valid. Valid values are ${VALID_TYPE_CHOICES.join(', ')}`;
 			}
 		}	
 	],
 	'length': [
-		value => { if (!value) return '`length` is required.' },
-		value => { if (!Number.isInteger(parseInt(value)) || !(value > 0)) return '`length` must be an non-negative integer.' }
+		value => !value && '`length` is required.' ,
+		value => (!Number.isInteger(parseInt(value)) || value <= 0) && '`length` must be an non-negative integer.'
 	]
 };
 
