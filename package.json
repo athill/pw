@@ -9,9 +9,9 @@
   "author": "athill <athill@iu.edu>",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^6.1.0"
+    "inquirer": "^6.2.2"
   },
   "devDependencies": {
-    "jest": "^23.5.0"
+    "jest": "^23.6.0"
   }
 }
