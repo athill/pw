@@ -1,11 +1,11 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
-const  {  
-	pw, 
-	LOWERCASE, 
-	NUMBERS, 
-	SYMBOLS, 
+const  {
+	pw,
+	LOWERCASE,
+	NUMBERS,
+	SYMBOLS,
 	UPPERCASE,
 	VALID_TYPE_CHOICES
 } = require('./pw');
@@ -14,7 +14,7 @@ const { readConfig, removeConfig, showHelp, writeConfig } = require('./utils');
 
 // defaults
 const DEFAULT_TYPE_CHOICES = [UPPERCASE, LOWERCASE, NUMBERS];
-const DEFAULT_LENGTH = 20;
+const DEFAULT_LENGTH = 40;
 
 // config path
 const CONFIG_PATH = './.config.json';
@@ -68,10 +68,10 @@ const configValidation = {
 		values => {
 			for (let i = 0; i < values.length; i++) {
 				const value = values[i];
-				return !VALID_TYPE_CHOICES.includes(value) && 
+				return !VALID_TYPE_CHOICES.includes(value) &&
 					`\`types\` value ${value} is not valid. Valid values are ${VALID_TYPE_CHOICES.join(', ')}`;
 			}
-		}	
+		}
 	],
 	'length': [
 		value => !value && '`length` is required.' ,
@@ -88,9 +88,9 @@ arg('--reset', CONFIG_PATH);
 
 // load config
 if (fs.existsSync(CONFIG_PATH)) {
-	config = readConfig(CONFIG_PATH, configValidation);	
+	config = readConfig(CONFIG_PATH, configValidation);
 } else {
-	console.log('No config file found. Run `pw --config` to update prefernces.');	
+	console.log('No config file found. Run `pw --config` to update prefernces.');
 }
 
 // wizard
@@ -100,7 +100,7 @@ const promt =  () => inquirer.prompt([
 		message: `Character types (default is ${config.types.join(', ')})`,
 		name: 'types',
 		default: config.types,
-		choices: VALID_TYPE_CHOICES	
+		choices: VALID_TYPE_CHOICES
 	},
 	{
 		type: 'input',
