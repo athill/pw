@@ -3,7 +3,7 @@ const fs = require('fs');
 const validateConfig = (config, rules) => {
 	const error = (message) => {
 		console.error(`Configuration error: ${message}`);
-		process.exit(1);		
+		process.exit(1);
 	};
 	Object.keys(config).forEach(key => {
 		if (!(key in rules)) {
@@ -43,7 +43,7 @@ const removeConfig = (path) => {
 };
 
 const writeConfig = (path, config) => {
-	fs.writeFileSync(path, JSON.stringify(config));	
+	fs.writeFileSync(path, JSON.stringify(config));
 };
 
 const showHelp = () => {
@@ -61,6 +61,7 @@ Options:
 	--save\tSave options as new defaults
 	--reset\tRestore original defaults
 	--version\tDisplays the current version
+  --cli\tSkip the wizard and run with defaults
 `);
 };
 

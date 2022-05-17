@@ -19,6 +19,8 @@ const DEFAULT_LENGTH = 40;
 // config path
 const CONFIG_PATH = './.config.json';
 
+let hasWizard = true;
+
 //// arguments
 const args = {
 	'--save': (configPath, config) => {
@@ -35,6 +37,9 @@ const args = {
 		const pkg = require('./package.json');
 		console.log(pkg.version);
 		process.exit(0);
+	},
+	'--cli': () => {
+		hasWizard = false;
 	}
 };
 
@@ -59,6 +64,9 @@ arg('--help');
 
 // version
 arg('--version');
+
+// skip wizard
+arg('--cli');
 
 //config
 const configValidation = {
@@ -113,8 +121,12 @@ const promt =  () => inquirer.prompt([
 
 
 // main
-const prompt = promt();
-prompt.then(answer => {
-	arg('--save', CONFIG_PATH, answer);
-	console.log(pw(answer.types, answer.length));
-});
+if (hasWizard) {
+	const prompt = promt();
+	prompt.then(answer => {
+		arg('--save', CONFIG_PATH, answer);
+		console.log(pw(answer.types, answer.length));
+	});
+} else {
+	console.log(pw(DEFAULT_TYPE_CHOICES, DEFAULT_LENGTH));
+}
