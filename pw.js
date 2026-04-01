@@ -10,7 +10,7 @@ const charTypes = {
 	[UPPERCASE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
 	[LOWERCASE]: 'abcdefghijklmnopqrstuvwxyz'.split(''),
 	[NUMBERS]: '0123456789'.split(''),
-	[SYMBOLS]: '~`!@#$%^&*()-_=+{}[]|\\:;"\'<>,.?/'.split('')
+	[SYMBOLS]: '~`!@#$%^&*()-_=+{}[]|\\:;<>,.?/'.split('')
 };
 
 // generate password
@@ -18,7 +18,7 @@ const pw = (types, length) => {
 	let valid = [];
 
 	types.forEach(type => {
-		valid = valid.concat(charTypes[type]);	
+		valid = valid.concat(charTypes[type]);
 	});
 	let password = '';
 	for (let i = 0; i < length; i++) {
@@ -28,12 +28,12 @@ const pw = (types, length) => {
 	return password;
 };
 
-module.exports = {  
+module.exports = {
 	charTypes,
-	pw, 
-	LOWERCASE, 
-	NUMBERS, 
-	SYMBOLS, 
+	pw,
+	LOWERCASE,
+	NUMBERS,
+	SYMBOLS,
 	UPPERCASE,
 	VALID_TYPE_CHOICES
 };
